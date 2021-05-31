@@ -1,6 +1,5 @@
 package com.example.reservationsystem.room;
 
-import javax.annotation.processing.Generated;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,5 +10,12 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    public Room(Integer id) {
+        this.id = id;
+    }
+
+    public Room() {
+    }
 
 }
