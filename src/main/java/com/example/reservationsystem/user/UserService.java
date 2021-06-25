@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -18,6 +19,26 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
+    public UserService() {
+    }
+
+    public List<UserDTO> getAllUsers() {
+        return userRepository
+                .findAll()
+                .stream()
+                .map(this::convertToUserReservationDTO)
+                .collect(Collectors.toList());
+    }
+
+    private UserDTO convertToUserReservationDTO(User user) {
+        UserDTO userReservationDTO = new UserDTO();
+        userReservationDTO.setUserId(user.getId());
+        userReservationDTO.setFirstName(user.getFirstName());
+        userReservationDTO.setLastName(user.getLastName());
+        return userReservationDTO;
+    }
+
 
     public User save(User user) {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
@@ -33,7 +54,11 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-        return userRepository.findByEmail(userEmail)
+        return userRepository.findByFirstName(userEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("Brak użytkownika o takim email"));
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }

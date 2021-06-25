@@ -1,14 +1,12 @@
 package com.example.reservationsystem.user;
 
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/user")
 public class UserController {
     private UserService userService;
 
@@ -16,13 +14,15 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/user")
-    public User save(@RequestBody User client) {
-        return userService.save(client);
+    @PostMapping
+    public User save(@RequestBody User user) {
+        return userService.save(user);
     }
 
-//    @GetMapping("/user")
-//    public
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userService.findAll();
+    }
 
     @Secured({"ROLE_CLIENT", "ROLE_ADMIN"})
     public List<User> getAll(){

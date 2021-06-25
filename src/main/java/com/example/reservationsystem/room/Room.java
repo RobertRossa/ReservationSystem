@@ -10,9 +10,10 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private Integer roomNumber;
 
-    public Room(Integer id) {
-        this.id = id;
+    public Room(Integer roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
     public Room() {

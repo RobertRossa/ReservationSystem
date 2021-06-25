@@ -1,11 +1,12 @@
 package com.example.reservationsystem.user;
 
-import com.example.reservationsystem.userRole.UserRole;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 public class User implements UserDetails {
@@ -16,13 +17,13 @@ public class User implements UserDetails {
     private String lastName;
     @Column(unique = true)
     private String email;
-    private Integer phoneNumber;
+    private String phoneNumber;
 //    @ManyToOne
     private int roleId =1;
     private String password;
 
 
-    public User(String firstName, String lastName, String email, Integer phoneNumber, int roleId, String password) {
+    public User(String firstName, String lastName, String email, String phoneNumber, int roleId, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -46,8 +47,32 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public void setPhoneNumber(Integer phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public int getRoleId() {
+        return roleId;
     }
 
     public void setRoleId(int roleId) {
@@ -60,7 +85,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + roleId));
     }
 
     @Override
